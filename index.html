@@ -3,8 +3,8 @@
 <!--
     Criado: 05 / 09 / 2023
     Por: Danilo Castro CE
-    Atualizado: 28 / 09 / 2023
-    Descrição da Atualização: A função drop move o alvo drag para baixo do do alvo drop. 
+    Atualizado: 30 / 09 / 2023
+    Descrição da Atualização: Deixar os textareas do tamanho do table-btn-text-section-w. 
 -->
 
 <head>
@@ -144,7 +144,7 @@
             max-width: 400px;
             min-height: 200px;
             margin: 20px auto;
-            background-color: white;
+            background-color: rgba(255,255,255, 0.9);
             border-radius: 8px;
             z-index: 100;
         }
@@ -369,8 +369,8 @@
         }
 
         .slider {
-            height: 40px;
-            width: 250px;
+            height: 30px;
+            width: 240px;
             display: flex;
             align-items: center;
             margin-right: 15px;
@@ -401,8 +401,8 @@
         }
 
         .valor {
-            font-size: 25px;
-            width: 40px;
+            font-size: 20px;
+            width: 35px;
             font-weight: 600;
             font-family: sans-serif;
             color: #3498db;
@@ -419,7 +419,7 @@
         .section-btnTextarea {
             width: var(--table-btn-text-section-w);
             float: var(--table-btn-text-section-float);
-	        margin-bottom: 10px;
+	        margin-bottom: 5px;
         }
 
         .box-btn-textarea {
@@ -705,7 +705,7 @@
                     name: groupCheckbox,
                     value: 'chkBlack',
                     start: config.btn_text.black ? 'checked' : '',
-                    desc: "Campo de Script com fundo Preto",
+                    desc: "Caixa de texto com fundo Preto",
                 },
             ]
 
@@ -912,7 +912,7 @@
             if (opcao === 'rangeBox') {
                 rangeBox = `
                     <div class='rangeBox wrapper'>
-                        <p>Tamanho do box dos botões no modo ON<p>
+                        <p>Tamanho do box dos botões e das caixas de texto<p>
                         <div class="box-range">
                             <div class="slider">
                                 <input id="range" type="range" min="200" max="800" value= "${config.btn_text.wBox}" onchange="handle_range(this)">
@@ -968,7 +968,7 @@
                         //console.log(error)
                     }
                 } else {
-                    document.querySelector('#range').setAttribute('disabled', 'disabled')
+                    //document.querySelector('#range').setAttribute('disabled', 'disabled')
                     document.querySelector('.box-all-btnTextarea').style.width = 'auto'
                 }
             }
@@ -978,9 +978,25 @@
             document.querySelector('.valor').textContent = element.value
             const chkOnOff = document.querySelector('.inputCheckBotao')
             //console.log(chkOnOff.checked)
-            if (chkOnOff.checked) {
-                config.btn_text.wBox = parseInt(element.value)
-                document.querySelector('.box-all-btnTextarea').style.width = element.value + 'px'
+
+	    const btns_txts = document.querySelectorAll('.textarea-copy') 
+	    btns_txts.forEach(btn_txt => {
+		btn_txt.style.width = 'auto'
+		btn_txt.style.width = 'var(--w-btnTextarea)'
+	    })
+	    
+	    const root = document.documentElement;
+	    document.getElementById('rascunho').style.width = 'auto'
+	    document.getElementById('rascunho').style.width = 'var(--w-rascunho)'
+            root.style.setProperty('--w-rascunho', `${element.value}px`)
+	    root.style.setProperty('--w-btnTextarea', `${element.value-58}px`)
+	    config.btn_text.wBox = parseInt(element.value)
+	    document.querySelector('.box-all-btnTextarea').style.width = element.value + 'px'
+	    updateHeight()
+
+            /*if (chkOnOff.checked) {
+                //config.btn_text.wBox = parseInt(element.value)
+                //document.querySelector('.box-all-btnTextarea').style.width = element.value + 'px'
 
                 const root = document.documentElement;
                 const sizeRascunho = parseInt(getComputedStyle(root).getPropertyValue('--w-rascunho'))
@@ -994,7 +1010,7 @@
 
             } else {
                 document.querySelector('.box-all-btnTextarea').style.width = 'auto'
-            }
+            }*/
         }
 
         const removeComponent = (box) => {
@@ -1219,12 +1235,12 @@
             if (obj.checked) {
                 config.btn_text.hide = true
                 upBtnTextarea('on')
-                document.querySelector('#range').removeAttribute('disabled')
+                //document.querySelector('#range').removeAttribute('disabled')
 
             } else {
                 config.btn_text.hide = false
                 upBtnTextarea('off')
-                document.querySelector('#range').setAttribute('disabled', 'disabled')
+                //document.querySelector('#range').setAttribute('disabled', 'disabled')
             }
             updateHeight()
 
@@ -1428,10 +1444,10 @@
             const dragId = idDrag.slice(6)
             const dropId = idDrop.slice(6)
 
-            /* - Antes do targetElementpor si mesmo. - */
+            //Antes do targetElementpor si mesmo.
             //elDrop.insertAdjacentElement('beforebegin',elDrag)
             
-            /* - Depois do targetElementpor si mesmo. - */
+            // Depois do targetElementpor si mesmo.
             elDrop.insertAdjacentElement('afterend',elDrag) 
             
             const btns_txts = document.querySelectorAll('.box-btn-textarea')
